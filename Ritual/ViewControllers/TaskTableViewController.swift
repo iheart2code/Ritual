@@ -58,6 +58,18 @@ extension TaskTableViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tasks.count
   }
+
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath:
+        IndexPath) -> Bool {
+        return true
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle:
+        UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cellIdentifier = "TaskTableViewCell"
