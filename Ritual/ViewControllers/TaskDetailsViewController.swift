@@ -37,15 +37,18 @@ class TaskDetailsViewController: UIViewController {
   @IBOutlet var notesTextField: UITextField!
   @IBOutlet var saveButton: UIBarButtonItem!
   
+  @IBOutlet weak var containerView: UIView!
   var task: Task?
+  var updatedReminderSetting: Bool? = nil
+  var updatedReminderDate: Date? = nil
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     descriptionTextField.delegate = self
     if let task = task {
-      descriptionTextField.text = task.description
-      notesTextField.text = task.notes
+      descriptionTextField.text = task.taskDescription
+      notesTextField.text = task.notes      
     }
     
     updateSaveButtonState()
@@ -59,12 +62,16 @@ class TaskDetailsViewController: UIViewController {
     } else if let owningNavigationController = navigationController {
       owningNavigationController.popViewController(animated: true)
     } else {
-      fatalError("The MealViewController is not inside a navigation controller.")
+      fatalError("The TaskDetailsViewController is not inside a navigation controller.")
     }
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
+    if segue.identifier == "ReminderTable" {
+      let reminderTableVC = segue.destination as? ReminderTableViewController
+      reminderTableVC?.delegate = self
+    }
     guard let button = sender as? UIBarButtonItem, button === saveButton else {
       os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
       return
@@ -72,8 +79,24 @@ class TaskDetailsViewController: UIViewController {
     
     let description = descriptionTextField.text ?? ""
     let notes = notesTextField.text ?? ""
+    let oldReminderSetting = task?.isReminderSet
+    let oldReminderDate = task?.reminderDate
     
-    task = Task(description: description, notes: notes)
+    task = Task(taskDescription: description, notes: notes)
+    
+    if let isReminderSet = updatedReminderSetting {
+      task?.isReminderSet = isReminderSet
+      updatedReminderSetting = nil
+    } else {
+      task?.isReminderSet = oldReminderSetting ?? false
+    }
+    
+    if let reminderDate = updatedReminderDate {
+      task?.reminderDate = reminderDate
+      updatedReminderDate = nil
+    } else {
+      task?.reminderDate = oldReminderDate
+    }
   }
 }
 
@@ -93,5 +116,12 @@ extension TaskDetailsViewController: UITextFieldDelegate {
   func updateSaveButtonState() {    
     let description = self.descriptionTextField.text ?? ""
     saveButton.isEnabled = !description.isEmpty
+  }
+}
+
+extension TaskDetailsViewController: ReminderViewDelegate {
+  func reminderDataChanged(reminderSet: Bool, reminderDate: Date?) {
+    updatedReminderSetting = reminderSet
+    updatedReminderDate = reminderDate
   }
 }

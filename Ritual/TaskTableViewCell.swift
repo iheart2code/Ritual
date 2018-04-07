@@ -50,4 +50,10 @@ class TaskTableViewCell: UITableViewCell {
       taskLabel.attributedText = NSAttributedString.init(string: taskDescription, attributes:[NSAttributedStringKey.strikethroughStyle: 1])
     }    
   }
+  
+  override func prepareForReuse() {
+    self.isTaskDone = false
+    self.taskLabel.text = ""
+//    self.radioButton.setImage(UIImage(named: "radio-button-unselected"), for: .normal)
+  }
 }

@@ -1,6 +1,0 @@
-framework module Pods_RitualTests {
-  umbrella header "Pods-RitualTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

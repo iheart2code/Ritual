@@ -33,18 +33,18 @@ import UIKit
 class TaskTableViewController: UITableViewController {
   
   var tasks: [Task?] = []
+  private var tasksKey = "Tasks"
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    loadSampleTasks() 
+    loadTasks()
   }
   
-  private func loadSampleTasks() {
-    let task1 = Task.init(description: "Task 1", notes: nil)
-    let task2 = Task.init(description: "Task 2", notes: nil)
-    
-    tasks += [task1, task2]
+  private func loadTasks() {
+    if let decoded = UserDefaults.standard.data(forKey: tasksKey) {
+      tasks = NSKeyedUnarchiver.unarchiveObject(with: decoded) as? [Task?] ?? []
+    }
   }
 }
 
@@ -65,13 +65,13 @@ extension TaskTableViewController {
       fatalError("The dequeued cell is not an instance of TaskTableViewCell")
     }
     
-    cell.taskLabel.text = tasks[indexPath.row]?.description
+    cell.taskLabel.text = tasks[indexPath.row]?.taskDescription
     return cell
   }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      tasks.remove(at: indexPath.row + 1)
+      tasks.remove(at: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .fade)
     }
   }
@@ -121,6 +121,12 @@ extension TaskTableViewController {
         tasks.append(task)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
       }
+      self.saveTasks()
     }
-  }  
+  }
+  
+  private func saveTasks() {
+    let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: tasks)
+    UserDefaults.standard.set(encodedData, forKey: tasksKey)
+  }
 }
