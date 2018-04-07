@@ -42,7 +42,7 @@ class RitualTests: XCTestCase {
   }
   
   func testTaskInitialization() {
-    let emptyTask = Task.init(description: "", notes: nil)
+    let emptyTask = Task.init(taskDescription: "", notes: nil)
     XCTAssertNil(emptyTask)
   }
   
