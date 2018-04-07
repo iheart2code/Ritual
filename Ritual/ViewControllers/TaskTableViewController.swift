@@ -39,6 +39,7 @@ class TaskTableViewController: UITableViewController {
     super.viewDidLoad()
     
     loadTasks()
+    TrackingManager.startTrackingTimedEvent(name: "Create Task")
   }
   
   private func loadTasks() {
@@ -120,6 +121,7 @@ extension TaskTableViewController {
         let newIndexPath = IndexPath(row: tasks.count, section: 0)
         tasks.append(task)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
+        self.trackCreateTask(task)
       }
       self.saveTasks()
     }
@@ -128,5 +130,14 @@ extension TaskTableViewController {
   private func saveTasks() {
     let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: tasks)
     UserDefaults.standard.set(encodedData, forKey: tasksKey)
+    self.trackNumberOfTasks(tasks.count)
   }
+
+    private func trackCreateTask(_ task: Task) {
+        TrackingManager.trackEvent(name: "Create Task", eventProperties: ["isReminderSet": task.isReminderSet])
+    }
+
+    private func trackNumberOfTasks(_ numberOfTasks: Int) {
+        TrackingManager.storeUserProperties([ "Number of tasks": numberOfTasks ])
+    }
 }

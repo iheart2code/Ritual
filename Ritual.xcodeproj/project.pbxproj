@@ -21,6 +21,7 @@
 		93A6CE0A205FE11D0082F3F4 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 93A6CE09205FE11D0082F3F4 /* Podfile */; };
 		93FD98AF2059512400E8CAD6 /* ReminderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FD98AE2059512400E8CAD6 /* ReminderTableViewController.swift */; };
 		93FD98B1205AE61700E8CAD6 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FD98B0205AE61700E8CAD6 /* PickerViewController.swift */; };
+		EA855C9B207917D200A423BE /* TrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA855C9A207917D200A423BE /* TrackingManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		93FD98AE2059512400E8CAD6 /* ReminderTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewController.swift; sourceTree = "<group>"; };
 		93FD98B0205AE61700E8CAD6 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		E3375B4E79C227DE1B7F8F00 /* Pods_Ritual.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ritual.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA855C9A207917D200A423BE /* TrackingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				00B841BF1FC37F110069A348 /* Assets.xcassets */,
 				00B841C11FC37F110069A348 /* LaunchScreen.storyboard */,
 				00B841C41FC37F110069A348 /* Info.plist */,
+				EA855C9A207917D200A423BE /* TrackingManager.swift */,
 			);
 			path = Ritual;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				00B841B91FC37F110069A348 /* AppDelegate.swift in Sources */,
 				00B841E71FC73ABB0069A348 /* TaskTableViewCell.swift in Sources */,
 				93FD98B1205AE61700E8CAD6 /* PickerViewController.swift in Sources */,
+				EA855C9B207917D200A423BE /* TrackingManager.swift in Sources */,
 				93FD98AF2059512400E8CAD6 /* ReminderTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
