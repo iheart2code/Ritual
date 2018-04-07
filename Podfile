@@ -5,4 +5,5 @@ target 'Ritual' do
 # Pods for Ritual
 pod 'Fabric'
 pod 'Crashlytics'
+pod 'Mixpanel-swift'
 end
