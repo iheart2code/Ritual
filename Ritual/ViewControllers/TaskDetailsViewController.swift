@@ -42,22 +42,17 @@ class TaskDetailsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Handle the text field’s user input through delegate callbacks.
     descriptionTextField.delegate = self
-    
-    // Set up views if editing an existing
     if let task = task {
       descriptionTextField.text = task.description
       notesTextField.text = task.notes
     }
     
-    // Enable the Save button only if the text field has a valid Task description.
     updateSaveButtonState()
   }
   
   // MARK: - Navigation
   @IBAction func cancel(_ sender: UIBarButtonItem) {
-    // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
     let isPresentingInAddTaskMode = presentingViewController is UINavigationController
     if isPresentingInAddTaskMode {
       dismiss(animated: true, completion: nil)
@@ -68,12 +63,8 @@ class TaskDetailsViewController: UIViewController {
     }
   }
   
-  // This method lets you configure a view controller before it's presented.
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    // Configure the destination view controller only when the save button is pressed.
     guard let button = sender as? UIBarButtonItem, button === saveButton else {
       os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
       return
@@ -82,7 +73,6 @@ class TaskDetailsViewController: UIViewController {
     let description = descriptionTextField.text ?? ""
     let notes = notesTextField.text ?? ""
     
-    // Set the task to be passed to TaskTableViewController after the unwind segue.
     task = Task(description: description, notes: notes)
   }
 }
@@ -96,14 +86,11 @@ extension TaskDetailsViewController: UITextFieldDelegate {
   }
   
   func textFieldDidBeginEditing(_ textField: UITextField) {
-    // Disable the Save button while editing.
     saveButton.isEnabled = false
   }
   
-  //MARK: Private methods
-  
-  func updateSaveButtonState() {
-    // Disable the Save button if the description is empty.
+  //MARK: Private methods  
+  func updateSaveButtonState() {    
     let description = self.descriptionTextField.text ?? ""
     saveButton.isEnabled = !description.isEmpty
   }

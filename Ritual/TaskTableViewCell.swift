@@ -42,12 +42,12 @@ class TaskTableViewCell: UITableViewCell {
       isTaskDone = false
       radioButton.setImage(UIImage(named: "radio-button-unselected"), for: .normal)
       taskLabel.textColor = .black
-      taskLabel.attributedText = NSAttributedString(string: taskDescription)
+      taskLabel.attributedText = NSAttributedString.init(string: taskDescription)
     } else {
       isTaskDone = true
       radioButton.setImage(UIImage(named: "radio-button-selected"), for: .normal)
       taskLabel.textColor = .gray
-      taskLabel.attributedText = NSAttributedString(string: taskDescription, attributes:[NSAttributedStringKey.strikethroughStyle: 1])
-    }
+      taskLabel.attributedText = NSAttributedString.init(string: taskDescription, attributes:[NSAttributedStringKey.strikethroughStyle: 1])
+    }    
   }
 }

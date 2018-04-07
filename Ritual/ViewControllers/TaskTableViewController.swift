@@ -58,18 +58,6 @@ extension TaskTableViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tasks.count
   }
-
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath:
-        IndexPath) -> Bool {
-        return true
-    }
-    override func tableView(_ tableView: UITableView, commit editingStyle:
-        UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            tasks.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cellIdentifier = "TaskTableViewCell"
@@ -80,12 +68,22 @@ extension TaskTableViewController {
     cell.taskLabel.text = tasks[indexPath.row]?.description
     return cell
   }
+  
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      tasks.remove(at: indexPath.row + 1)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
 }
 
 extension TaskTableViewController {
   // MARK: - Navigation
   
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     super.prepare(for: segue, sender: sender)
     guard let segueID = segue.identifier else { return }
@@ -110,21 +108,19 @@ extension TaskTableViewController {
       fatalError("Unexpected Segue Identifier; \(segueID.debugDescription)")
     }
   }
-
+  
+  
   //MARK: Actions
   @IBAction func unwindToTaskList(sender: UIStoryboardSegue) {
     if let sourceViewController = sender.source as? TaskDetailsViewController, let task = sourceViewController.task {
       if let selectedIndexPath = tableView.indexPathForSelectedRow {
-        // Update an existing task.
         tasks[selectedIndexPath.row] = task
         tableView.reloadRows(at: [selectedIndexPath], with: .none)
       } else {
-        // Add a new task.
         let newIndexPath = IndexPath(row: tasks.count, section: 0)
-        
         tasks.append(task)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
       }
     }
-  }
+  }  
 }
